@@ -7,9 +7,9 @@ const userSchema = mongoose.Schema({
         unique: [true, "Este usuario ya está registrado"],
         required: [true, "Necesita introducir un nombre de usuario"]
     },
-    name: {
+    password: {
         type: String,
-        required: [true, "Necesita introducir un nombre"]
+        required: [true, "Necesita introducir una contraseña"]
     },
     email : {
         type: String,

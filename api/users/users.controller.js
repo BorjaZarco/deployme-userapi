@@ -24,9 +24,10 @@ function getById (req, res) {
 }
 
 function createUser (req, res) {
-    const { name, email, username, password } = req.body;
+    const { email, username} = req.body;
+    const password = md5(req.body.password);
     const user = new usersModel ({ 
-        name, email, username, password: md5(password), ec2: []
+        email, username, password, ec2: []
     });
     const error = user.validateSync();
     if (!error) {
