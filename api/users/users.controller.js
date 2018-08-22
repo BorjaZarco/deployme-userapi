@@ -53,8 +53,8 @@ function deleteUser (req, res) {
 // function editUser (req, res) {
 //     usersModel.findOne({ "username": req.params.id })
 //         .then(response => {
-//         if (req.body && req.body.email) {
-//             response.email = req.body.email;
+//         if (req.body && req.body.ec2) {
+//             response.ec2.push(req.body.ec2);
 //         }
 
 //         if (req.body && req.body.name) {

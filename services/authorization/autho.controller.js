@@ -2,11 +2,20 @@ const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 const usersModel = require('../../api/users/users.model');
 
+module.exports.isLogged = async (req, res) => {
+    jwt.verify(req.headers['authorization'], '427609685', (err, token) => {
+        err 
+        ? res.sendStatus(403)
+        : res.sendStatus(200)
+    })
+}
+  
+module.exports.isLogged.verb = 'get'
+module.exports.isLogged.path = '/'
 
 module.exports.createUserToken = async (req, res) => {
     const username = req.body.username;
     const password = md5(req.body.password);
-    console.log("entra")
     usersModel.findOne({ "username": username }) 
         .then( response => {
             if (password === response.password){
