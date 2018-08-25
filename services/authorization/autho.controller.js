@@ -26,6 +26,8 @@ module.exports.createUserToken = async (req, res) => {
                     }, 
                     '427609685',
                 )
+                response.activeJWT = token;
+                response.save();
                 return res.status(200).json(token);
             } else {
                 return res.sendStatus(400); 

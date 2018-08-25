@@ -1,17 +1,7 @@
 const usersModel = require('./users.model');
 const md5 = require('md5');
 
-module.exports = { getAll, getById, createUser, deleteUser };
-
-function getAll (req, res) {
-    usersModel.find()
-        .then (response => {
-            res.json(response);
-        })
-        .catch ( err => {
-            res.json(err);
-        });
-}
+module.exports = { getById, createUser, deleteUser, editUser };
 
 function getById (req, res) {
     usersModel.findOne({ "username": req.params.id }) 
@@ -24,7 +14,7 @@ function getById (req, res) {
 }
 
 function createUser (req, res) {
-    const { email, username} = req.body;
+    const { email, username } = req.body;
     const password = md5(req.body.password);
     const user = new usersModel ({ 
         email, username, password, ec2: []
@@ -50,20 +40,18 @@ function deleteUser (req, res) {
     
 }
 
-// function editUser (req, res) {
-//     usersModel.findOne({ "username": req.params.id })
-//         .then(response => {
-//         if (req.body && req.body.ec2) {
-//             response.ec2.push(req.body.ec2);
-//         }
+function editUser (req, res) {
+    usersModel.findOne({ "username": req.params.id })
+        .then(response => {
+        if (req.body && req.body.ec2) {
+            response.ec2.pop();
+            response.ec2.push(req.body.ec2);
+        }
 
-//         if (req.body && req.body.name) {
-//             response.name = req.body.name;
-//         }
-//         response.save();
-//         res.json(response);
-//         })
-//         .catch(err => {
-//             res.status(404).json(err);
-//         })
-// } 
+        response.save();
+        res.json(response);
+        })
+        .catch(err => {
+            res.status(404).json(err);
+        })
+} 
