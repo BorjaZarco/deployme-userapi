@@ -6,5 +6,7 @@ const checkLog = require('../../services/authorization/authorization');
 router.get('/:id', checkLog, controller.getById);
 router.post('/', controller.createUser);
 router.delete('/:id', checkLog, controller.deleteUser);
+router.post('/add-instance/:id', controller.addInstanceToUser);
+router.delete('/delete-instance/:id/:instanceId', controller.deleteInstanceToUser);
 
 module.exports = router;

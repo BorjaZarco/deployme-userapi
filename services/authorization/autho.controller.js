@@ -22,7 +22,7 @@ module.exports.createUserToken = async (req, res) => {
                 const token =  jwt.sign(
                     { 
                         username: response.username,
-                        exp: Date.now()/1000+600 
+                        exp: Date.now()/1000+(600 * 3) 
                     }, 
                     '427609685',
                 )

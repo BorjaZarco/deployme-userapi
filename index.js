@@ -13,4 +13,6 @@ app.use('/api/login', loginRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/services', serviceRouter)
 
-app.listen(5000);
+app.listen(5000, (err) => {
+    console.log('Servidor listo en el puerto ' + 5000);
+})

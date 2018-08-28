@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-mongoose.connect('mongodb://localhost:27017/deployme')
-// mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/deployme`);
+//mongoose.connect('mongodb://localhost:27017/deployme')
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/deployme`);
 
 const userSchema = mongoose.Schema({
     username: {
@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
     },
     ec2: {
         type: Array,
-        maxlength: 1,
+        //maxlength: 1,
     },
     activeJWT: {
         type: String
