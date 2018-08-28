@@ -1,7 +1,7 @@
 const usersModel = require('./users.model');
 const md5 = require('md5');
 
-module.exports = { getById, createUser, deleteUser, addInstanceToUser, deleteInstanceToUser };
+module.exports = { getById, createUser, deleteUser, addInstanceToUser, deleteInstanceToUser, deleteAllProjects};
 
 function getById (req, res) {
     usersModel.findOne({ "username": req.params.id }) 
@@ -68,6 +68,19 @@ function deleteInstanceToUser (req, res) {
         .catch(err => {
             res.status(404).json(err);
         })
-} 
+}
+
+function deleteAllProjects (req, res){
+    usersModel.findOne({ "username": req.params.id })
+        .then(response => {
+            console.log(response);
+            response.ec2 = [];
+            response.save();
+            res.code(200).send("proyectos eliminados, usuario:", response);
+        })
+        .catch(err => {
+            res.status(404).json(err);
+        })
+}
 
 
