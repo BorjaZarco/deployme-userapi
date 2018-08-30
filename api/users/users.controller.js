@@ -15,17 +15,23 @@ function getById (req, res) {
 
 function createUser (req, res) {
     const { email, username } = req.body;
-    const password = md5(req.body.password);
-    const user = new usersModel ({ 
-        email, username, password, ec2: []
-    });
-    const error = user.validateSync();
-    if (!error) {
-        user.save();
-        res.json(user);
-    } else {
-        res.status(400).json(error.errors);
-    }
+    usersModel.findOne({ "username": username }) 
+        .then( response => {
+            res.status(400).json( { "error": "Usuario ya creado"} );
+        })
+        .catch ( err  => {
+            const password = md5(req.body.password);
+            const user = new usersModel ({ 
+                email, username, password, ec2: []
+            });
+            const error = user.validateSync();
+            if (!error) {
+                user.save();
+                res.json(user);
+            } else {
+                res.status(400).json(error.errors);
+            }
+        })
 }
 
 function deleteUser (req, res) {
