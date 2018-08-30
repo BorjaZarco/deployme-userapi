@@ -1,5 +1,6 @@
 const usersModel = require('./users.model');
 const md5 = require('md5');
+const { sendEmail } = require('../../services/email/sendEmail');
 
 module.exports = { getById, createUser, deleteUser, addInstanceToUser, deleteInstanceToUser, deleteAllProjects};
 
@@ -15,7 +16,6 @@ function getById (req, res) {
 
 function createUser (req, res) {
     const { email, username } = req.body;
-    console.log(username)
     usersModel.findOne({ "username": username }) 
         .then( response => {
             if (response) {
@@ -27,8 +27,12 @@ function createUser (req, res) {
                 });
                 const error = user.validateSync();
                 if (!error) {
-                    user.save();
-                    res.json(user);
+                    sendEmail(username, email).then( () => {
+                        user.save();
+                        res.json(user);
+                    }).catch(err => {
+                        console.log("error sending the email: ", err);
+                    })
                 } else {
                     res.status(400).json(error.errors);
                 }    
@@ -44,7 +48,6 @@ function createUser (req, res) {
                 user.save();
                 res.json(user);
             } else {
-                console.log("jeje")
                 res.status(400).json(error.errors);
             }
         })
