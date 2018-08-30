@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-//mongoose.connect('mongodb://localhost:27017/deployme')
+// mongoose.connect('mongodb://localhost:27017/deployme')
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/deployme`);
 
 const serviceSchema = mongoose.Schema({
