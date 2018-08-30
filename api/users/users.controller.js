@@ -15,9 +15,24 @@ function getById (req, res) {
 
 function createUser (req, res) {
     const { email, username } = req.body;
+    console.log(username)
     usersModel.findOne({ "username": username }) 
         .then( response => {
-            res.status(400).json( { "error": "Usuario ya creado"} );
+            if (response) {
+                res.status(400).json( { "error": "Usuario ya creado"} );
+            } else {
+                const password = md5(req.body.password);
+                const user = new usersModel ({ 
+                    email, username, password, ec2: []
+                });
+                const error = user.validateSync();
+                if (!error) {
+                    user.save();
+                    res.json(user);
+                } else {
+                    res.status(400).json(error.errors);
+                }    
+            }
         })
         .catch ( err  => {
             const password = md5(req.body.password);
@@ -29,10 +44,12 @@ function createUser (req, res) {
                 user.save();
                 res.json(user);
             } else {
+                console.log("jeje")
                 res.status(400).json(error.errors);
             }
         })
 }
+
 
 function deleteUser (req, res) {
     usersModel.findOne( { "username": req.params.id} )
